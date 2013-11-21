@@ -1,58 +1,67 @@
-describe("Player", function() {
-  var player;
-  var song;
+describe("Exercise 1", function() {
 
-  beforeEach(function() {
-    player = new Player();
-    song = new Song();
+  it("should be able to return a simple string dollar and cents expression", function() {
+    var amount = 6.00;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("six and 00/100 dollars");
   });
 
-  it("should be able to play a Song", function() {
-    player.play(song);
-    expect(player.currentlyPlayingSong).toEqual(song);
-
-    //demonstrates use of custom matcher
-    expect(player).toBePlaying(song);
+  it("should be able to return dollars and cents", function() {
+    var amount = 8.43;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("eight and 43/100 dollars");
   });
 
-  describe("when song has been paused", function() {
-    beforeEach(function() {
-      player.play(song);
-      player.pause();
-    });
-
-    it("should indicate that the song is currently paused", function() {
-      expect(player.isPlaying).toBeFalsy();
-
-      // demonstrates use of 'not' with a custom matcher
-      expect(player).not.toBePlaying(song);
-    });
-
-    it("should be possible to resume", function() {
-      player.resume();
-      expect(player.isPlaying).toBeTruthy();
-      expect(player.currentlyPlayingSong).toEqual(song);
-    });
+  it("should be able to return a hundred dollars", function() {
+    var amount = 100.00;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("one hundred and 00/100 dollars");
   });
 
-  // demonstrates use of spies to intercept and test method calls
-  it("tells the current song if the user has made it a favorite", function() {
-    spyOn(song, 'persistFavoriteStatus');
-
-    player.play(song);
-    player.makeFavorite();
-
-    expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
+  it("should be able to return a thousand dollars", function() {
+    var amount = 1000.00;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("one thousand and 00/100 dollars");
   });
 
-  //demonstrates use of expected exceptions
-  describe("#resume", function() {
-    it("should throw an exception if song is already playing", function() {
-      player.play(song);
+  it("should be able to return a tens of thousands of dollars", function() {
+    var amount = 90000.00;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("ninety thousand and 00/100 dollars");
+  });
 
-      expect(function() {
-        player.resume();
-      }).toThrow("song is already playing");
-    });
+  it("should be able to return a hundred thousand dollars", function() {
+    var amount = 500000.00;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("five hundred thousand and 00/100 dollars");
+  });
+
+  it("should be able to return a million dollars", function() {
+    var amount = 1000000.00;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("one million and 00/100 dollars");
+  });
+
+  it("should be able to return more complex tens figures", function() {
+    var amount = 53.78;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("fifty-three and 78/100 dollars");
+  });
+
+  it("should be able to return more complex hundreds figures", function() {
+    var amount = 437.99;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("four hundred thirty-seven and 99/100 dollars");
+  });
+
+  it("should be able to return more complex thousands figures", function() {
+    var amount = 3456.78;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("three thousand four hundred fifty-six and 78/100 dollars");
+  });
+
+  it("should be able to return more complex tens of thousands figures", function() {
+    var amount = 65432.11;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("sixty-five thousand four hundred thirty-two and 11/100 dollars");
+  });
+
+  it("should be able to return more complex hundreds of thousands figures", function() {
+    var amount = 876543.21;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("eight hundred seventy-six thousand five hundred forty-three and 21/100 dollars");
+  });
+
+  it("should be able to return more complex millions figures", function() {
+    var amount = 1234567.89;
+    expect(converter.total(converter.cash(amount), converter.change(amount))).toEqual("one million two hundred thirty-four thousand five hundred sixty-seven and 89/100 dollars");
   });
 });
